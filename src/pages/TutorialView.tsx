@@ -277,7 +277,6 @@ const TutorialView = () => {
         <CardContent>
           <div className="prose prose-purple max-w-none">
             <ReactMarkdown
-              className="text-justify leading-relaxed"
               components={{
                 h1: ({ children }) => <h1 className="text-3xl font-bold text-purple-800 mb-6 mt-8">{children}</h1>,
                 h2: ({ children }) => <h2 className="text-2xl font-semibold text-purple-700 mb-4 mt-6">{children}</h2>,
