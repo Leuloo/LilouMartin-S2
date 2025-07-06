@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -87,8 +86,8 @@ const Settings = () => {
     try {
       // Supprimer les données utilisateur
       if (user) {
-        await supabase.from('user_progress').delete().eq('user_id', user.id);
-        await supabase.from('profiles').delete().eq('id', user.id);
+        await (supabase as any).from('user_progress').delete().eq('user_id', user.id);
+        await (supabase as any).from('profiles').delete().eq('id', user.id);
       }
 
       // Supprimer le compte

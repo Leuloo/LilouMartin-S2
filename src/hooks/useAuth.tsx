@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (session?.user) {
           // Fetch user profile
           setTimeout(async () => {
-            const { data: profileData } = await supabase
+            const { data: profileData } = await (supabase as any)
               .from('profiles')
               .select('*')
               .eq('id', session.user.id)

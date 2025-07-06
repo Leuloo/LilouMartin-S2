@@ -31,7 +31,7 @@ const TutorialView = () => {
   }, [id, user]);
 
   const fetchTutorial = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('tutorials')
       .select(`
         *,
@@ -52,7 +52,7 @@ const TutorialView = () => {
   const fetchProgress = async () => {
     if (!user || !id) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('user_progress')
       .select('*')
       .eq('user_id', user.id)
@@ -77,7 +77,7 @@ const TutorialView = () => {
     };
 
     if (progress) {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('user_progress')
         .update(progressData)
         .eq('id', progress.id);
@@ -94,7 +94,7 @@ const TutorialView = () => {
         }
       }
     } else {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('user_progress')
         .insert([progressData])
         .select()

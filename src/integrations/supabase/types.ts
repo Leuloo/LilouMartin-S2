@@ -9,7 +9,151 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          color: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tutorials: {
+        Row: {
+          category_id: string | null
+          content: string | null
+          created_at: string
+          description: string | null
+          difficulty_level: string
+          duration_minutes: number
+          id: string
+          image_url: string | null
+          is_published: boolean
+          title: string
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          content?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty_level: string
+          duration_minutes?: number
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          title: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          content?: string | null
+          created_at?: string
+          description?: string | null
+          difficulty_level?: string
+          duration_minutes?: number
+          id?: string
+          image_url?: string | null
+          is_published?: boolean
+          title?: string
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tutorials_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_progress: {
+        Row: {
+          completed: boolean
+          completed_at: string | null
+          created_at: string
+          id: string
+          progress_percentage: number
+          started_at: string
+          tutorial_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          progress_percentage?: number
+          started_at?: string
+          tutorial_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          progress_percentage?: number
+          started_at?: string
+          tutorial_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_progress_tutorial_id_fkey"
+            columns: ["tutorial_id"]
+            isOneToOne: false
+            referencedRelation: "tutorials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

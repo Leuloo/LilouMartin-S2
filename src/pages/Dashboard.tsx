@@ -32,7 +32,7 @@ const Dashboard = () => {
     if (!user) return;
 
     // Fetch user progress
-    const { data: progressData } = await supabase
+    const { data: progressData } = await (supabase as any)
       .from('user_progress')
       .select(`
         *,
@@ -45,20 +45,20 @@ const Dashboard = () => {
       setUserProgress(progressData);
       
       // Calculate stats
-      const completed = progressData.filter(p => p.completed).length;
-      const inProgress = progressData.filter(p => !p.completed && p.progress_percentage > 0).length;
+      const completed = progressData.filter((p: UserProgress) => p.completed).length;
+      const inProgress = progressData.filter((p: UserProgress) => !p.completed && p.progress_percentage > 0).length;
       const totalMinutes = progressData
-        .filter(p => p.completed)
-        .reduce((acc, p) => acc + (p.tutorial?.duration_minutes || 0), 0);
+        .filter((p: UserProgress) => p.completed)
+        .reduce((acc: number, p: UserProgress) => acc + (p.tutorial?.duration_minutes || 0), 0);
       const averageProgress = progressData.length > 0 
-        ? Math.round(progressData.reduce((acc, p) => acc + p.progress_percentage, 0) / progressData.length)
+        ? Math.round(progressData.reduce((acc: number, p: UserProgress) => acc + p.progress_percentage, 0) / progressData.length)
         : 0;
 
       setStats({ completed, inProgress, totalMinutes, averageProgress });
     }
 
     // Fetch recent tutorials
-    const { data: tutorialsData } = await supabase
+    const { data: tutorialsData } = await (supabase as any)
       .from('tutorials')
       .select(`
         *,

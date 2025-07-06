@@ -28,7 +28,7 @@ const Tutorials = () => {
   }, [tutorials, searchTerm, selectedCategory, selectedDifficulty]);
 
   const fetchTutorials = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('tutorials')
       .select(`
         *,
@@ -46,7 +46,7 @@ const Tutorials = () => {
   };
 
   const fetchCategories = async () => {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('categories')
       .select('*')
       .order('name');
