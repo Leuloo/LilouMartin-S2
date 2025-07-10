@@ -25,37 +25,83 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
+  const fetchOrCreateProfile = async (userId: string, email: string) => {
+    console.log('Fetching profile for user:', userId);
+    
+    // Essayer de récupérer le profil existant
+    const { data: existingProfile, error: fetchError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
+
+    if (fetchError) {
+      console.error('Error fetching profile:', fetchError);
+      return null;
+    }
+
+    if (existingProfile) {
+      console.log('Profile found:', existingProfile);
+      return existingProfile;
+    }
+
+    // Si pas de profil, en créer un
+    console.log('No profile found, creating new profile for:', email);
+    const { data: newProfile, error: createError } = await supabase
+      .from('profiles')
+      .insert({
+        id: userId,
+        email: email,
+        role: 'user'
+      })
+      .select()
+      .single();
+
+    if (createError) {
+      console.error('Error creating profile:', createError);
+      return null;
+    }
+
+    console.log('Profile created:', newProfile);
+    return newProfile;
+  };
+
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile
+          // Récupérer ou créer le profil utilisateur
           setTimeout(async () => {
-            const { data: profileData } = await (supabase as any)
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
-            
+            const profileData = await fetchOrCreateProfile(session.user.id, session.user.email!);
             setProfile(profileData);
+            setLoading(false);
           }, 0);
         } else {
           setProfile(null);
+          setLoading(false);
         }
-        
-        setLoading(false);
       }
     );
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('Initial session check:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      
+      if (session?.user) {
+        fetchOrCreateProfile(session.user.id, session.user.email!).then((profileData) => {
+          setProfile(profileData);
+          setLoading(false);
+        });
+      } else {
+        setLoading(false);
+      }
     });
 
     return () => subscription.unsubscribe();
