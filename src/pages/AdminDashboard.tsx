@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -42,7 +41,7 @@ const AdminDashboard = () => {
 
   const fetchData = async () => {
     // Fetch tutorials
-    const { data: tutorialsData } = await supabase
+    const { data: tutorialsData } = await (supabase as any)
       .from('tutorials')
       .select(`
         *,
@@ -51,11 +50,16 @@ const AdminDashboard = () => {
       .order('created_at', { ascending: false });
 
     if (tutorialsData) {
-      setTutorials(tutorialsData);
+      // Type assertion to ensure difficulty_level is properly typed
+      const typedTutorials = tutorialsData.map((tutorial: any) => ({
+        ...tutorial,
+        difficulty_level: tutorial.difficulty_level as 'Débutant' | 'Intermédiaire' | 'Avancé'
+      }));
+      setTutorials(typedTutorials);
     }
 
     // Fetch categories
-    const { data: categoriesData } = await supabase
+    const { data: categoriesData } = await (supabase as any)
       .from('categories')
       .select('*')
       .order('name');
@@ -103,7 +107,7 @@ const AdminDashboard = () => {
     
     if (editingTutorial) {
       // Update existing tutorial
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('tutorials')
         .update({
           ...formData,
@@ -125,7 +129,7 @@ const AdminDashboard = () => {
       }
     } else {
       // Create new tutorial
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('tutorials')
         .insert([formData]);
 
@@ -150,7 +154,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id: string) => {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce tutoriel ?')) {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('tutorials')
         .delete()
         .eq('id', id);
@@ -172,7 +176,7 @@ const AdminDashboard = () => {
   };
 
   const togglePublish = async (tutorial: Tutorial) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('tutorials')
       .update({ 
         is_published: !tutorial.is_published,
