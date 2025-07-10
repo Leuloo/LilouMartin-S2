@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchOrCreateProfile = async (userId: string, email: string) => {
+  const fetchOrCreateProfile = async (userId: string, email: string): Promise<Profile | null> => {
     console.log('Fetching profile for user:', userId);
     
     // Essayer de récupérer le profil existant
@@ -42,7 +42,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (existingProfile) {
       console.log('Profile found:', existingProfile);
-      return existingProfile;
+      // Cast le rôle pour correspondre au type attendu
+      return {
+        ...existingProfile,
+        role: existingProfile.role as 'user' | 'admin'
+      } as Profile;
     }
 
     // Si pas de profil, en créer un
@@ -63,7 +67,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     console.log('Profile created:', newProfile);
-    return newProfile;
+    // Cast le rôle pour correspondre au type attendu
+    return {
+      ...newProfile,
+      role: newProfile.role as 'user' | 'admin'
+    } as Profile;
   };
 
   useEffect(() => {
