@@ -25,53 +25,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchOrCreateProfile = async (userId: string, email: string): Promise<Profile | null> => {
+  const fetchProfile = async (userId: string): Promise<Profile | null> => {
     console.log('Fetching profile for user:', userId);
     
-    // Essayer de récupérer le profil existant
-    const { data: existingProfile, error: fetchError } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
+    try {
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
 
-    if (fetchError) {
-      console.error('Error fetching profile:', fetchError);
-      return null;
-    }
+      if (error) {
+        console.error('Error fetching profile:', error);
+        return null;
+      }
 
-    if (existingProfile) {
-      console.log('Profile found:', existingProfile);
-      // Cast le rôle pour correspondre au type attendu
+      console.log('Profile found:', profileData);
       return {
-        ...existingProfile,
-        role: existingProfile.role as 'user' | 'admin'
+        ...profileData,
+        role: profileData.role as 'user' | 'admin'
       } as Profile;
-    }
-
-    // Si pas de profil, en créer un
-    console.log('No profile found, creating new profile for:', email);
-    const { data: newProfile, error: createError } = await supabase
-      .from('profiles')
-      .insert({
-        id: userId,
-        email: email,
-        role: 'user'
-      })
-      .select()
-      .single();
-
-    if (createError) {
-      console.error('Error creating profile:', createError);
+    } catch (error) {
+      console.error('Exception fetching profile:', error);
       return null;
     }
-
-    console.log('Profile created:', newProfile);
-    // Cast le rôle pour correspondre au type attendu
-    return {
-      ...newProfile,
-      role: newProfile.role as 'user' | 'admin'
-    } as Profile;
   };
 
   useEffect(() => {
@@ -83,12 +60,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Récupérer ou créer le profil utilisateur
+          // Le profil sera créé automatiquement par le trigger
+          // On attend un peu puis on le récupère
           setTimeout(async () => {
-            const profileData = await fetchOrCreateProfile(session.user.id, session.user.email!);
+            const profileData = await fetchProfile(session.user.id);
             setProfile(profileData);
             setLoading(false);
-          }, 0);
+          }, 500); // Petit délai pour laisser le trigger s'exécuter
         } else {
           setProfile(null);
           setLoading(false);
@@ -103,7 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(session?.user ?? null);
       
       if (session?.user) {
-        fetchOrCreateProfile(session.user.id, session.user.email!).then((profileData) => {
+        fetchProfile(session.user.id).then((profileData) => {
           setProfile(profileData);
           setLoading(false);
         });
@@ -116,12 +94,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
+    console.log('Attempting sign in for:', email);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     
     if (error) {
+      console.error('Sign in error:', error);
       toast({
         title: "Erreur de connexion",
         description: error.message,
@@ -133,6 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string) => {
+    console.log('Attempting sign up for:', email);
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -142,6 +123,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     });
     
     if (error) {
+      console.error('Sign up error:', error);
       toast({
         title: "Erreur d'inscription",
         description: error.message,
@@ -158,6 +140,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signOut = async () => {
+    console.log('Signing out');
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
