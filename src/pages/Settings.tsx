@@ -151,7 +151,7 @@ const Settings = () => {
             <span>Informations du compte</span>
           </CardTitle>
           <CardDescription>
-            Vos informations personnelles sur GraphiLearn
+            Vos informations personnelles sur Colorlab
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
