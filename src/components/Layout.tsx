@@ -27,7 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <img
  src="/logo.svg"
    alt="Logo Colorlab"
-  className="w-30 h-30 object-contain"
+   className="w-20 h-20 object-contain"
                 />
             </Link>
 
