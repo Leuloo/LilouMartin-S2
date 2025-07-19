@@ -12,7 +12,7 @@ const Legal = () => {
           </span>
         </h1>
         <p className="text-gray-600 text-lg">
-          Informations légales et conditions d'utilisation de GraphiLearn
+          Informations légales et conditions d'utilisation de Colorlab
         </p>
         <p className="text-sm text-gray-500 mt-2">
           Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
@@ -30,7 +30,7 @@ const Legal = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Nom du site</h3>
-              <p className="text-gray-700">GraphiLearn</p>
+              <p className="text-gray-700">Colorlab</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Nature du site</h3>
@@ -68,11 +68,11 @@ const Legal = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Directeur de publication</h3>
-              <p className="text-gray-700">Équipe pédagogique GraphiLearn</p>
+              <p className="text-gray-700">Équipe pédagogique Colorlab</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Contact</h3>
-              <p className="text-gray-700">contact@graphilearn.edu</p>
+              <p className="text-gray-700">contact@colorlab.edu</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Responsabilité éditoriale</h3>
@@ -138,7 +138,7 @@ const Legal = () => {
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Marques et logos</h3>
               <p className="text-gray-700 text-sm">
-                Le nom "GraphiLearn" et le logo associé sont utilisés exclusivement dans le cadre de ce projet pédagogique.
+                Le nom "Colorlab" et le logo associé sont utilisés exclusivement dans le cadre de ce projet pédagogique.
               </p>
             </div>
             <div>
@@ -171,7 +171,7 @@ const Legal = () => {
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Accès au service</h3>
               <p className="text-gray-700 text-sm">
-                L'accès à GraphiLearn est gratuit et réservé à un usage pédagogique. 
+                L'accès à Colorlab est gratuit et réservé à un usage pédagogique. 
                 L'inscription nécessite une adresse email valide.
               </p>
             </div>
@@ -187,7 +187,7 @@ const Legal = () => {
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Limitation de responsabilité</h3>
               <p className="text-gray-700 text-sm">
-                GraphiLearn étant un projet pédagogique, nous nous efforçons de maintenir un service de qualité 
+                Colorlab étant un projet pédagogique, nous nous efforçons de maintenir un service de qualité 
                 mais ne pouvons garantir une disponibilité continue du service.
               </p>
             </div>
@@ -212,8 +212,8 @@ const Legal = () => {
               Pour toute question juridique ou réclamation concernant le site :
             </p>
             <div className="bg-purple-50 p-4 rounded-lg">
-              <p className="text-gray-700 font-medium">Équipe GraphiLearn</p>
-              <p className="text-gray-600">Email : legal@graphilearn.edu</p>
+              <p className="text-gray-700 font-medium">Équipe Colorlab</p>
+              <p className="text-gray-600">Email : legal@colorlab.edu</p>
               <p className="text-gray-600">Objet : [LEGAL] suivi de votre demande</p>
             </div>
             <p className="text-gray-700 text-sm">
