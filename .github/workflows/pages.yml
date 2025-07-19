@@ -29,7 +29,10 @@ jobs:
 
       - name: Copy index.html to 404.html
         run: cp dist/index.html dist/404.html
-
+      
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
+      
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v1
         with:
