@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center space-x-2">
               <img
-+    src="/logo.svg"
++    src="/favicon.ico"
 +    alt="Logo Colorlab"
 +    className="w-10 h-10 object-contain"
 +  />
