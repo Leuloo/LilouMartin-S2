@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -24,9 +23,7 @@ const TutorialView = () => {
   useEffect(() => {
     if (id) {
       fetchTutorial();
-      if (user) {
-        fetchProgress();
-      }
+      if (user) fetchProgress();
     }
   }, [id, user]);
 
@@ -41,17 +38,13 @@ const TutorialView = () => {
       .eq('is_published', true)
       .single();
 
-    if (error) {
-      console.error('Error fetching tutorial:', error);
-    } else {
-      setTutorial(data);
-    }
+    if (error) console.error('Error fetching tutorial:', error);
+    else setTutorial(data);
     setLoading(false);
   };
 
   const fetchProgress = async () => {
     if (!user || !id) return;
-
     const { data, error } = await (supabase as any)
       .from('user_progress')
       .select('*')
@@ -59,21 +52,18 @@ const TutorialView = () => {
       .eq('tutorial_id', id)
       .single();
 
-    if (!error && data) {
-      setProgress(data);
-    }
+    if (!error && data) setProgress(data);
   };
 
-  const updateProgress = async (progressPercentage: number, completed: boolean = false) => {
+  const updateProgress = async (progressPercentage: number, completed = false) => {
     if (!user || !id) return;
-
     const progressData = {
       user_id: user.id,
       tutorial_id: id,
       progress_percentage: progressPercentage,
       completed,
       ...(completed && { completed_at: new Date().toISOString() }),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
 
     if (progress) {
@@ -81,15 +71,13 @@ const TutorialView = () => {
         .from('user_progress')
         .update(progressData)
         .eq('id', progress.id);
-
-      if (error) {
-        console.error('Error updating progress:', error);
-      } else {
+      if (error) console.error('Error updating progress:', error);
+      else {
         setProgress({ ...progress, ...progressData });
         if (completed) {
           toast({
-            title: "Félicitations !",
-            description: "Vous avez terminé ce tutoriel avec succès.",
+            title: 'Félicitations !',
+            description: 'Vous avez terminé ce tutoriel avec succès.',
           });
         }
       }
@@ -99,12 +87,8 @@ const TutorialView = () => {
         .insert([progressData])
         .select()
         .single();
-
-      if (error) {
-        console.error('Error creating progress:', error);
-      } else {
-        setProgress(data);
-      }
+      if (error) console.error('Error creating progress:', error);
+      else setProgress(data);
     }
   };
 
@@ -128,7 +112,7 @@ const TutorialView = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-96">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600" />
       </div>
     );
   }
@@ -143,8 +127,7 @@ const TutorialView = () => {
       <div className="flex items-center space-x-4">
         <Link to="/tutorials">
           <Button variant="outline" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour aux tutoriels
+            <ArrowLeft className="w-4 h-4 mr-2" /> Retour aux tutoriels
           </Button>
         </Link>
       </div>
@@ -161,30 +144,32 @@ const TutorialView = () => {
               />
             </div>
           )}
-          
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2 mb-4">
-              <Badge className={getDifficultyColor(tutorial.difficulty_level)} variant="secondary">
+              <Badge
+                className={getDifficultyColor(tutorial.difficulty_level)}
+                variant="secondary"
+              >
                 {tutorial.difficulty_level}
               </Badge>
               {tutorial.category && (
-                <Badge 
-                  style={{ backgroundColor: tutorial.category.color + '20', color: tutorial.category.color }}
+                <Badge
+                  style={{
+                    backgroundColor: tutorial.category.color + '20',
+                    color: tutorial.category.color,
+                  }}
                   variant="outline"
                 >
                   {tutorial.category.name}
                 </Badge>
               )}
             </div>
-            
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
               {tutorial.title}
             </h1>
-            
             <p className="text-gray-600 text-lg mb-6">
               {tutorial.description}
             </p>
-            
             <div className="flex items-center space-x-6 text-sm text-gray-500 mb-6">
               <div className="flex items-center space-x-1">
                 <Clock className="w-4 h-4" />
@@ -195,12 +180,12 @@ const TutorialView = () => {
                 <span>Tutoriel interactif</span>
               </div>
             </div>
-
-            {/* Progress Section (only for authenticated users) */}
             {user && (
               <Card className="bg-purple-50 border-purple-200">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-lg text-purple-800">Votre progression</CardTitle>
+                  <CardTitle className="text-lg text-purple-800">
+                    Votre progression
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -210,13 +195,12 @@ const TutorialView = () => {
                       </span>
                       {progress?.completed && (
                         <Badge className="bg-green-100 text-green-800">
-                          <CheckCircle className="w-4 h-4 mr-1" />
-                          Terminé
+                          <CheckCircle className="w-4 h-4 mr-1" /> Terminé
                         </Badge>
                       )}
                     </div>
-                    <Progress 
-                      value={progress?.progress_percentage || 0} 
+                    <Progress
+                      value={progress?.progress_percentage || 0}
                       className="h-2"
                     />
                     {!progress?.completed && (
@@ -237,37 +221,36 @@ const TutorialView = () => {
       </div>
 
       {/* Video Section */}
-      {tutorial.video_url && (
-        <Card className="bg-white/70 backdrop-blur-sm border border-purple-100">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Play className="w-5 h-5 text-purple-600" />
-              <span>Vidéo du tutoriel</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video">
-              {tutorial.video_url.includes('youtube.com') || tutorial.video_url.includes('youtu.be') ? (
-                <iframe
-                  src={tutorial.video_url.replace('watch?v=', 'embed/')}
-                  className="w-full h-full rounded-lg"
-                  allowFullScreen
-                  title={tutorial.title}
-                />
-              ) : (
-                <video
-                  src={tutorial.video_url}
-                  controls
-                  className="w-full h-full rounded-lg"
-                  title={tutorial.title}
-                >
-                  Votre navigateur ne prend pas en charge la lecture vidéo.
-                </video>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      { (tutorial.video_url.includes('youtube.com') || tutorial.video_url.includes('youtu.be')) && (() => {
+        // 1) Extrait proprement l'ID de la vidéo
+        let videoId: string | null = null;
+
+        if (tutorial.video_url.includes('watch?v=')) {
+          videoId = new URL(tutorial.video_url).searchParams.get('v');
+        } else if (tutorial.video_url.includes('youtu.be/')) {
+          videoId = tutorial.video_url.split('youtu.be/')[1].split(/[?&]/)[0];
+        }
+        if (!videoId) return null;
+
+        // 2) Construit l'URL d'embed avec le sous-domaine correct
+        const embedBase = `https://www.youtube-nocookie.com/embed/${videoId}`;
+
+        // 3) Ajoute le paramètre origin
+        const originParam = `origin=${encodeURIComponent(window.location.origin)}`;
+        // Autres paramètres possibles
+        const extraParams = 'rel=0';
+        const embedUrl = `${embedBase}?${originParam}&${extraParams}`;
+
+        return (
+          <iframe
+            src={embedUrl}
+            className="w-full h-full rounded-lg aspect-video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={tutorial.title}
+          />
+        );
+      })() }
 
       {/* Content Section */}
       <Card className="bg-white/70 backdrop-blur-sm border border-purple-100">
@@ -287,9 +270,7 @@ const TutorialView = () => {
                 li: ({ children }) => <li className="text-gray-700">{children}</li>,
                 strong: ({ children }) => <strong className="font-semibold text-purple-800">{children}</strong>,
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-purple-300 pl-4 italic text-purple-700 my-6">
-                    {children}
-                  </blockquote>
+                  <blockquote className="border-l-4 border-purple-300 pl-4 italic text-purple-700 my-6">{children}</blockquote>
                 ),
               }}
             >
@@ -307,8 +288,7 @@ const TutorialView = () => {
             size="lg"
             className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 px-8 py-3"
           >
-            <CheckCircle className="w-5 h-5 mr-2" />
-            J'ai terminé ce tutoriel !
+            <CheckCircle className="w-5 h-5 mr-2" /> J'ai terminé ce tutoriel !
           </Button>
         </div>
       )}
