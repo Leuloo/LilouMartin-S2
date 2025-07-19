@@ -95,7 +95,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <footer className="bg-white/80 backdrop-blur-sm border-t border-purple-100 mt-16">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center text-gray-600">
-            <p className="mb-2">© 2024 GraphiLearn - Plateforme d'apprentissage en graphisme</p>
+            <p className="mb-2">© 2025 Colorlab - Plateforme d'apprentissage en graphisme</p>
             <p className="text-sm italic">Travail pédagogique sans objectifs commerciaux</p>
             <div className="mt-4 space-x-4">
               <Link to="/privacy" className="text-purple-600 hover:underline text-sm">
