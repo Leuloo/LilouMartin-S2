@@ -124,7 +124,7 @@ const Home = () => {
       <section className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-purple-100">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            GraphiLearn en Chiffres
+            Colorlab en Chiffres
           </h2>
         </div>
         
@@ -153,7 +153,7 @@ const Home = () => {
           {!user ? (
             <Link to="/auth">
               <Button size="lg" variant="secondary" className="px-8 py-3 text-lg bg-white text-purple-700 hover:bg-gray-100">
-                Rejoindre GraphiLearn
+                Rejoindre Colorlab
               </Button>
             </Link>
           ) : (
