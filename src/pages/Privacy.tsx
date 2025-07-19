@@ -12,7 +12,7 @@ const Privacy = () => {
           </span>
         </h1>
         <p className="text-gray-600 text-lg">
-          GraphiLearn respecte votre vie privée et protège vos données personnelles
+          Colorlab respecte votre vie privée et protège vos données personnelles
         </p>
         <p className="text-sm text-gray-500 mt-2">
           Dernière mise à jour : {new Date().toLocaleDateString('fr-FR')}
@@ -28,12 +28,12 @@ const Privacy = () => {
         </CardHeader>
         <CardContent className="prose prose-purple max-w-none">
           <p className="text-gray-700 leading-relaxed">
-            GraphiLearn est une plateforme éducative dédiée à l'apprentissage du design graphique. 
+            Colorlab est une plateforme éducative dédiée à l'apprentissage du design graphique. 
             Cette politique de confidentialité décrit comment nous collectons, utilisons et protégeons 
             vos informations personnelles conformément au Règlement Général sur la Protection des Données (RGPD).
           </p>
           <p className="text-gray-700 leading-relaxed">
-            <strong>Important :</strong> GraphiLearn est un projet pédagogique sans objectifs commerciaux. 
+            <strong>Important :</strong> Colorlab est un projet pédagogique sans objectifs commerciaux. 
             Nous ne vendons pas vos données et ne les utilisons que dans le cadre éducatif.
           </p>
         </CardContent>
@@ -194,8 +194,8 @@ const Privacy = () => {
             </p>
             <div className="bg-purple-50 p-4 rounded-lg">
               <p className="text-gray-700 font-medium">Délégué à la Protection des Données</p>
-              <p className="text-gray-600">Email : privacy@graphilearn.fr</p>
-              <p className="text-gray-600">Adresse : GraphiLearn - Protection des données</p>
+              <p className="text-gray-600">Email : privacy@colorlab.fr</p>
+              <p className="text-gray-600">Adresse : Colorlab - Protection des données</p>
             </div>
             <p className="text-gray-700 text-sm">
               Nous nous engageons à répondre à vos demandes dans un délai de 30 jours maximum.
