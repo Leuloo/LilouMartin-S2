@@ -52,7 +52,7 @@ const Auth = () => {
               <BookOpen className="w-8 h-8 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              GraphiLearn
+              Colorlab
             </span>
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
@@ -166,8 +166,7 @@ const Auth = () => {
             <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <p className="text-sm text-blue-800 font-medium mb-2">Comptes de test :</p>
               <div className="text-xs text-blue-700 space-y-1">
-                <p><strong>Admin :</strong> admin@graphilearn.com / password123</p>
-                <p><strong>User :</strong> user@graphilearn.com / password123</p>
+                <p><strong>Admin :</strong> projets2liloumartin@gmail.com / Normandiewebschool123&*</p>
               </div>
             </div>
           </CardContent>
